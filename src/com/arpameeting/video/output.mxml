@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Application xmlns:fx="http://ns.adobe.com/mxml/2009" 
+               xmlns:s="library://ns.adobe.com/flex/spark" 
+               xmlns:mx="library://ns.adobe.com/flex/mx" 
+               applicationComplete="main()"
+               minWidth="955" minHeight="600">
+    <fx:Script>
+        <![CDATA[
+            import com.arpameeting.utils.AdobeDeveloperData;
+            import com.arpameeting.utils.Log;
+            
+            import mx.core.FlexGlobals;
+            
+            //[Bindable] private var _connected:Boolean = false;
+            [Bindable] private var _group_name:String = "com.arpameeting.";
+            [Bindable] private var _stream_name:String;
+            [Bindable] private var _user_tag:String;
+            
+            private var _groupSpecifier:GroupSpecifier;
+            private var _netConnection:NetConnection;
+            private var _incomingStream:NetStream;
+            private var _netGroup:NetGroup;
+            
+            private function onConnect():void
+            {
+                _netGroup = new NetGroup(_netConnection, 
+                    _groupSpecifier.groupspecWithAuthorizations());
+                _netGroup.addEventListener(NetStatusEvent.NET_STATUS, 
+                    onNetStatus);
+            }
+            
+            private function play():void
+            {
+                _incomingStream = new NetStream(_netConnection, 
+                    _groupSpecifier.groupspecWithAuthorizations());
+                _incomingStream.play(_stream_name);
+                
+                var video:Video = new Video(outgoingVideoDisplay.width, 
+                    outgoingVideoDisplay.height);
+                video.attachNetStream(_incomingStream);
+                video.smoothing = true;
+                outgoingVideoDisplay.addChild(video);
+
+            }
+            
+            /**
+             * --- Net Handler ---
+             */
+            private function onNetStatus(event:NetStatusEvent):void
+            {
+                Log.d(event.info.code);
+                switch (event.info.code)
+                {
+                    case "NetConnection.Connect.Success":
+                        onConnect();
+                        break;
+                    case "NetGroup.Connect.Success":
+                        break;
+                    case "NetGroup.Neighbor.Connect":
+                        play();
+                        break;
+                    case "NetGroup.MulticastStream.PublishNotify":
+                        break;
+                    case "NetGroup.MulticastStream.UnpublishNotify":
+                        break;
+                    case "NetGroup.Posting.Notify":
+                        break;
+                    default:
+                        break;
+                }
+            }
+            
+            /**
+             * --- MAIN FUNCTION ---
+             */
+            public function main():void
+            {
+                /**
+                 * Running if "_group_name" is setted.
+                 */
+                if (FlexGlobals.topLevelApplication.parameters.group == null || 
+                    FlexGlobals.topLevelApplication.parameters.stream == null)
+                {
+                    return;
+                }
+                
+                /**
+                 * Get varaibles from flashVars.
+                 */
+                _group_name = _group_name + 
+                    FlexGlobals.topLevelApplication.parameters.group;
+                _stream_name = 
+                    FlexGlobals.topLevelApplication.parameters.stream;
+                _user_tag = "user" + int(Math.random() * 65536);
+                Log.tag = _user_tag;
+
+                /**
+                 * GroupSpecifier.
+                 */
+                _groupSpecifier = new GroupSpecifier(_group_name);
+                _groupSpecifier.multicastEnabled = true;
+                _groupSpecifier.serverChannelEnabled = true;
+                _groupSpecifier.postingEnabled = true;
+                //_groupSpecifier.routingEnabled = true;
+                //_groupSpecifier.objectReplicationEnabled = true;
+                //_groupSpecifier.ipMulticastMemberUpdatesEnabled = true;
+                //_groupSpecifier.peerToPeerDisabled = true;
+                
+                /**
+                 * Connecting.
+                 */
+                _netConnection = new NetConnection();
+                _netConnection.addEventListener(NetStatusEvent.NET_STATUS, 
+                    onNetStatus);
+                _netConnection.connect(AdobeDeveloperData.SERVER + "/" + 
+                    AdobeDeveloperData.DEVKEY);
+            }
+        ]]>
+    </fx:Script>
+    <fx:Declarations>
+        <!-- Place non-visual elements (e.g., services, value objects) here -->
+    </fx:Declarations>
+    <s:VideoDisplay id="outgoingVideoDisplay" width="320" height="240" />
+</s:Application>

@@ -1,0 +1,30 @@
+<html>
+<head>
+    <title></title>
+    <script type="text/javascript" src="swfobject.js"></script>
+    <script type="text/javascript" src="arpameeting-video.js"></script>
+    <script type="text/javascript">
+    var input = {
+            width : 300,
+            height : 300,
+            stream : "peer3",
+            container : "peer3ContainerId"
+    };
+
+    var output = { 
+            width : 300,
+            height : 300, 
+            peers : [
+                { stream : "peer1", container : "peer1ContainerId"},
+                { stream : "peer2", container : "peer2ContainerId"}
+            ]
+    };
+    </script>
+</head>
+<body>
+    <div id="peer1ContainerId"></div>
+    <div id="peer2ContainerId"></div>
+    <div id="peer3ContainerId"></div>
+    <script type="text/javascript">createInputSWF();</script>
+</body>
+</html>
