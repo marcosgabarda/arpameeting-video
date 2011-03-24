@@ -48,7 +48,6 @@
                 _outgoingStream.attachCamera(_camera);
                 _outgoingStream.publish(_stream_name);
                 
-                
                 var video:Video = new Video(outgoingVideoDisplay.width, 
                     outgoingVideoDisplay.height);
                 video.attachCamera(_camera);
@@ -65,8 +64,7 @@
             {
                 if (ExternalInterface.available)
                 {
-                    
-                    var wrapperFunction:String = "newIncomingStream";
+                    var wrapperFunction:String = "AMVideo.newIncomingStream";
                     Log.d("Calling to " + wrapperFunction + "('" + stream + "')");
                     ExternalInterface.call(wrapperFunction, stream);
                 }

@@ -51,7 +51,7 @@ var AMVideo = {
 	 */
 	newIncomingStream: function (stream)
 	{
-		for ( var i = 0; i < output.peers.length; i++)
+		for ( var i = 0; i < this.output.peers.length; i++)
 		{
 			var peer = this.output.peers[i];
 			if (peer.stream == stream)

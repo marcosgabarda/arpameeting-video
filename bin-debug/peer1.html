@@ -2,16 +2,15 @@
 <head>
     <title></title>
     <script type="text/javascript" src="swfobject.js"></script>
-    <script type="text/javascript" src="arpameeting-video.js"></script>
+    <script type="text/javascript" src="amvideo.js"></script>
     <script type="text/javascript">
-    var input = {
+    AMVideo.input = {
             stream : "peer1",
             container : "peer1ContainerId", 
             width : 300,
             height : 300
     };
-
-    var output = {
+    AMVideo.output = {
             width : 300,
             height : 300, 
             peers : [
@@ -25,6 +24,6 @@
     <div id="peer1ContainerId"></div>
     <div id="peer2ContainerId"></div>
     <div id="peer3ContainerId"></div>
-    <script type="text/javascript">createInputSWF();</script>
+    <script type="text/javascript">AMVideo.createInputSWF();</script>
 </body>
 </html>
