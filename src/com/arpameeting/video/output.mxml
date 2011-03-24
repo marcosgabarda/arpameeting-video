@@ -2,8 +2,7 @@
 <s:Application xmlns:fx="http://ns.adobe.com/mxml/2009" 
                xmlns:s="library://ns.adobe.com/flex/spark" 
                xmlns:mx="library://ns.adobe.com/flex/mx" 
-               applicationComplete="main()"
-               minWidth="955" minHeight="600">
+               applicationComplete="main()">
     <fx:Script>
         <![CDATA[
             import com.arpameeting.utils.AdobeDeveloperData;
@@ -120,5 +119,7 @@
     <fx:Declarations>
         <!-- Place non-visual elements (e.g., services, value objects) here -->
     </fx:Declarations>
-    <s:VideoDisplay id="outgoingVideoDisplay" width="320" height="240" />
+    <s:BorderContainer width="100%" height="100%">
+        <s:VideoDisplay id="outgoingVideoDisplay" width="100%" height="100%"/>
+    </s:BorderContainer>
 </s:Application>

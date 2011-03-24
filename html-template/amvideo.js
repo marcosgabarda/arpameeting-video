@@ -18,15 +18,15 @@ var AMVideo = {
 			stream : "peer1",
 			container : "peer2ContainerId",
 			autopublish: false,
-			width : 300,
-			height : 300
+			width : 160,
+			height : 120
 	},
 	/*!
 	 * Default parameters for output SWF objects.
 	 */
 	output: { 
-			width : 300,
-			height : 300,
+			width : 320,
+			height : 240,
 			peers : [
 			{ stream : "peer2", container : "peer2ContainerId"},
 			{ stream : "peer3", container : "peer3ContainerId"}
