@@ -28,6 +28,8 @@
             private var _camera:Camera = null;
             private var _quality:Number = 85;
             
+            private var _auto_publish:Boolean;
+            
             private function setupCamera():void
             {
                 _camera = Camera.getCamera();
@@ -42,21 +44,16 @@
                     _groupSpecifier.groupspecWithAuthorizations());
                 _outgoingStream.addEventListener(NetStatusEvent.NET_STATUS, 
                     onNetStatus);
-                
                 setupCamera();
-                
                 _outgoingStream.attachCamera(_camera);
                 _outgoingStream.publish(_stream_name);
-                
                 var video:Video = new Video(outgoingVideoDisplay.width, 
                     outgoingVideoDisplay.height);
                 video.attachCamera(_camera);
                 video.smoothing = true;
                 video.scaleX = -1;
                 video.x = video.x + video.width;
-                
                 outgoingVideoDisplay.addChild(video);
-                
                 _publishing = true;
             }
             
@@ -110,6 +107,10 @@
                         break;
                     case "NetGroup.Neighbor.Connect":
                         _connected = true;
+                        if (_auto_publish)
+                        {
+                            publish();
+                        }
                         break;
                     case "NetGroup.MulticastStream.PublishNotify":
                         Log.d(event.info.name + " stream detected!");
@@ -147,6 +148,11 @@
                     FlexGlobals.topLevelApplication.parameters.group;
                 _stream_name = 
                     FlexGlobals.topLevelApplication.parameters.stream;
+                if (FlexGlobals.topLevelApplication.parameters.autopublish && 
+                    FlexGlobals.topLevelApplication.parameters.autopublish == "true")
+                    _auto_publish = true;
+                else
+                    _auto_publish = false;
                 _user_tag = "user" + int(Math.random() * 65536);
                 Log.tag = _user_tag;
 

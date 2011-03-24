@@ -11,7 +11,8 @@ var AMVideo = {
 	 */
 	input: {
 			stream : "peer1",
-			container : "peer2ContainerId", 
+			container : "peer2ContainerId",
+			autopublish: false,
 			width : 300,
 			height : 300
 	},
@@ -42,7 +43,7 @@ var AMVideo = {
 	createInputSWF: function ()
 	{
 		var url = "input.swf?group=" + this.net_group_name + "&stream=" + 
-			this.input.stream;
+			this.input.stream + "&autopublish=" + this.input.autopublish;
 		swfobject.embedSWF(url, this.input.container, this.input.width, 
 				this.input.height, this.version);
 	},

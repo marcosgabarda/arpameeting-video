@@ -4,20 +4,10 @@
     <script type="text/javascript" src="swfobject.js"></script>
     <script type="text/javascript" src="amvideo.js"></script>
     <script type="text/javascript">
-    AMVideo.input = {
-            stream : "peer1",
-            container : "peer1ContainerId", 
-            width : 300,
-            height : 300
-    };
-    AMVideo.output = {
-            width : 300,
-            height : 300, 
-            peers : [
-                { stream : "peer2", container : "peer2ContainerId"},
-                { stream : "peer3", container : "peer3ContainerId"}
-            ]
-    };
+    AMVideo.input.stream = "peer1";
+    AMVideo.input.container = "peer1ContainerId";
+    AMVideo.output.peers = [ { stream : "peer2", container : "peer2ContainerId"}, 
+                             { stream : "peer3", container : "peer3ContainerId"}];
     </script>
 </head>
 <body>
