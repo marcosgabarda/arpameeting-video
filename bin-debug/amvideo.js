@@ -9,7 +9,7 @@ var AMVideo = {
 	/*!
 	 * URL of SWF objects.
 	 */
-	url_root = '';
+	url_root : '',
 	/*!
 	 * Group name for NetGroup Adobe Flash. This name will be appended to other 
 	 * string to create the final group name.
