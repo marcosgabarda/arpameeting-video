@@ -56,10 +56,16 @@ var AMVideo = {
 	 */
 	createInputSWF: function ()
 	{
+		var flashvars = {};
+		var params = {};
+		var attributes = {};
+		params.allowscriptaccess = "always"; 
 		var url = this.url_root + "input.swf?group=" + this.net_group_name + "&stream=" + 
 			this.input.stream + "&autopublish=" + this.input.autopublish;
 		swfobject.embedSWF(url, this.input.container, this.input.width, 
-				this.input.height, this.version);
+				this.input.height, this.version, 
+				this.url_root + "expressInstall.swf", flashvars, params, 
+				attributes);
 	},
 	/*!
 	 * Called from input SWF file when a new stream is detected in the 
@@ -67,6 +73,10 @@ var AMVideo = {
 	 */
 	newIncomingStream: function (stream)
 	{
+		var flashvars = {};
+		var params = {};
+		var attributes = {};
+		params.allowscriptaccess = "always"; 
 		for ( var i = 0; i < this.output.peers.length; i++)
 		{
 			var peer = this.output.peers[i];
@@ -75,7 +85,9 @@ var AMVideo = {
 				var url = this.url_root + "output.swf?group=" + this.net_group_name + "&stream=" 
 							+ peer.stream
 				swfobject.embedSWF(url, peer.container, this.output.width, 
-						this.output.height, this.version);
+						this.output.height, this.version, 
+						this.url_root + "expressInstall.swf", flashvars, params, 
+						attributes);
 			}
 		}
 	}
