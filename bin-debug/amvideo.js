@@ -7,6 +7,10 @@
  */
 var AMVideo = {
 	/*!
+	 * URL of SWF objects.
+	 */
+	url_root = '';
+	/*!
 	 * Group name for NetGroup Adobe Flash. This name will be appended to other 
 	 * string to create the final group name.
 	 */
@@ -52,7 +56,7 @@ var AMVideo = {
 	 */
 	createInputSWF: function ()
 	{
-		var url = "input.swf?group=" + this.net_group_name + "&stream=" + 
+		var url = this.url_root + "input.swf?group=" + this.net_group_name + "&stream=" + 
 			this.input.stream + "&autopublish=" + this.input.autopublish;
 		swfobject.embedSWF(url, this.input.container, this.input.width, 
 				this.input.height, this.version);
@@ -68,7 +72,7 @@ var AMVideo = {
 			var peer = this.output.peers[i];
 			if (peer.stream == stream)
 			{
-				var url = "output.swf?group=" + this.net_group_name + "&stream=" 
+				var url = this.url_root + "output.swf?group=" + this.net_group_name + "&stream=" 
 							+ peer.stream
 				swfobject.embedSWF(url, peer.container, this.output.width, 
 						this.output.height, this.version);
