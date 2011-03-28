@@ -9,10 +9,11 @@
             import com.arpameeting.utils.AdobeDeveloperData;
             import com.arpameeting.utils.Log;
             
-            import mx.core.FlexGlobals;
-            import mx.controls.Alert;
-            
             import flash.external.ExternalInterface;
+            
+            import mx.collections.ArrayList;
+            import mx.controls.Alert;
+            import mx.core.FlexGlobals;
             
             [Bindable] private var _connected:Boolean = false;
             [Bindable] private var _publishing:Boolean = false;
@@ -25,6 +26,7 @@
             private var _outgoingStream:NetStream;
             private var _netGroup:NetGroup;
             
+            [Bindable] private var _cameras:ArrayList = new ArrayList(Camera.names);
             private var _camera:Camera = null;
             private var _quality:Number = 85;
             
@@ -32,7 +34,7 @@
             
             private function setupCamera():void
             {
-                _camera = Camera.getCamera();
+                _camera = Camera.getCamera(camerasBox.selectedIndex.toString());
                 _camera.setMode(640, 480, 15);
                 _camera.setQuality(0, _quality);
                 _camera.setLoopback(true);
@@ -188,6 +190,7 @@
         <s:HGroup verticalAlign="middle" horizontalAlign="center" width="100%" top="10" left="50%">
             <s:Button label="Start" click="publish()" enabled="{_connected}" alpha="0.75"/>
             <s:Button label="Stop" click="stop()" enabled="{_publishing}" alpha="0.75"/>
+            <s:ComboBox id="camerasBox" dataProvider="{_cameras}" selectedIndex="0" />
         </s:HGroup>
     </s:BorderContainer>
 </s:Application>
