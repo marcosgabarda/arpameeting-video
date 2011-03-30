@@ -37,7 +37,7 @@
             private function setupCamera():void
             {
                 _camera = Camera.getCamera(camerasBox.selectedIndex.toString());
-                _camera.setMode(640, 480, 15);
+                _camera.setMode(640, 480, 15, false);
                 _camera.setQuality(0, _quality);
                 _camera.setLoopback(true);
             }
@@ -47,6 +47,7 @@
                 _microphone = Microphone.getMicrophone(micsBox.selectedIndex);
                 _microphone.setUseEchoSuppression(true);
                 _microphone.gain = micVolume.value;
+                _microphone.codec = SoundCodec.SPEEX;
             }
             
             private function publish():void
