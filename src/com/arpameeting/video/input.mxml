@@ -2,8 +2,7 @@
 <s:Application xmlns:fx="http://ns.adobe.com/mxml/2009" 
                xmlns:s="library://ns.adobe.com/flex/spark" 
                xmlns:mx="library://ns.adobe.com/flex/mx" 
-               applicationComplete="main()"
-               backgroundColor="#eeeeee">
+               applicationComplete="main()">
     <fx:Script>
         <![CDATA[
             import com.arpameeting.utils.AdobeDeveloperData;
@@ -29,6 +28,9 @@
             [Bindable] private var _cameras:ArrayList = new ArrayList(Camera.names);
             private var _camera:Camera = null;
             private var _quality:Number = 85;
+            
+            [Bindable] private var _microphones:ArrayList = new ArrayList(Microphone.names);
+            private var _microphone:Microphone = null;
             
             private var _auto_publish:Boolean;
             
@@ -185,12 +187,51 @@
     <fx:Declarations>
         <!-- Place non-visual elements (e.g., services, value objects) here -->
     </fx:Declarations>
-    <s:BorderContainer width="100%" height="100%">
+    <fx:Style>
+        @namespace s "library://ns.adobe.com/flex/spark";
+        @namespace mx "library://ns.adobe.com/flex/mx";
+        .controlsStyle {
+            backgroundColor: #5f7ab3;
+            color: #ffffff;
+            bottom: 0;
+            left: 0;
+            borderVisible: false;
+            horizontal-align: center;
+            vertical-align: middle;
+        }
+        s|ComboBox {
+            color: #000000;
+        }
+    </fx:Style>
+    <s:BorderContainer width="100%" height="100%" >
         <s:VideoDisplay id="outgoingVideoDisplay" width="100%" height="100%" />
-        <s:HGroup verticalAlign="middle" horizontalAlign="center" width="100%" top="10" left="50%">
-            <s:Button label="Start" click="publish()" enabled="{_connected}" alpha="0.75"/>
-            <s:Button label="Stop" click="stop()" enabled="{_publishing}" alpha="0.75"/>
-            <s:ComboBox id="camerasBox" dataProvider="{_cameras}" selectedIndex="0" />
-        </s:HGroup>
+        <s:BorderContainer id="controlsContainer" 
+                           styleName="controlsStyle" 
+                           width="100%"
+                           visible="{!_publishing}">
+            <s:VGroup width="100%" verticalAlign="middle" horizontalAlign="center" paddingTop="10">
+                <s:HGroup verticalAlign="middle">
+                    <s:Label text="Select webcam: " />
+                    <s:ComboBox id="camerasBox" dataProvider="{_cameras}" selectedIndex="0" />
+                </s:HGroup>
+                <s:CheckBox id="micCheckBox" label="Enable microphone" />
+                <s:HGroup verticalAlign="middle">
+                    <s:ComboBox id="micsBox" dataProvider="{_microphones}" 
+                                selectedIndex="0" 
+                                enabled="{micCheckBox.selected}"/>
+                    <s:Label text="Volume" />
+                    <s:HSlider id="micVolume" minimum="0" maximum="100"
+                               enabled="{micCheckBox.selected}"/>
+                </s:HGroup>
+            </s:VGroup>
+        </s:BorderContainer>
+        <s:VGroup width="100%" top="10" left="50%">
+            <s:HGroup verticalAlign="middle" horizontalAlign="center" width="100%" top="10" left="50%">
+                <s:Button label="Start" click="publish()" 
+                          enabled="{_connected}" alpha="0.75"/>
+                <s:Button label="Stop" click="stop()" enabled="{_publishing}" alpha="0.75"/>
+            </s:HGroup>
+            <s:Label text="Waiting for other peers..." visible="{!_connected}" top="50" left="50%" />
+        </s:VGroup>
     </s:BorderContainer>
 </s:Application>
