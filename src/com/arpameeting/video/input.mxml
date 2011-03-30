@@ -42,6 +42,13 @@
                 _camera.setLoopback(true);
             }
             
+            private function setupMicrophone():void
+            {
+                _microphone = Microphone.getMicrophone(micsBox.selectedIndex);
+                _microphone.setUseEchoSuppression(true);
+                _microphone.gain = micVolume.value;
+            }
+            
             private function publish():void
             {
                 _outgoingStream = new NetStream(_netConnection, 
@@ -50,6 +57,13 @@
                     onNetStatus);
                 setupCamera();
                 _outgoingStream.attachCamera(_camera);
+                
+                if (micCheckBox.selected)
+                {
+                    setupMicrophone();
+                    _outgoingStream.attachAudio(_microphone);
+                }
+                
                 _outgoingStream.publish(_stream_name);
                 var video:Video = new Video(outgoingVideoDisplay.width, 
                     outgoingVideoDisplay.height);
@@ -59,6 +73,7 @@
                 video.x = video.x + video.width;
                 outgoingVideoDisplay.addChild(video);
                 _publishing = true;
+                startButton.enabled = false;
             }
             
             private function play(stream:String):void
@@ -81,6 +96,7 @@
                 _outgoingStream.close();
                 outgoingVideoDisplay.removeChildAt(1);
                 _publishing = false;
+                startButton.enabled = true;
             }
             
             public function stoped(stream:String):void
@@ -220,18 +236,18 @@
                                 selectedIndex="0" 
                                 enabled="{micCheckBox.selected}"/>
                     <s:Label text="Volume" />
-                    <s:HSlider id="micVolume" minimum="0" maximum="100"
+                    <s:HSlider id="micVolume" minimum="0" maximum="100" value="50"
                                enabled="{micCheckBox.selected}"/>
                 </s:HGroup>
             </s:VGroup>
         </s:BorderContainer>
-        <s:VGroup width="100%" top="10" left="50%">
+        <s:VGroup width="100%" top="10" left="50%" horizontalAlign="center">
             <s:HGroup verticalAlign="middle" horizontalAlign="center" width="100%" top="10" left="50%">
-                <s:Button label="Start" click="publish()" 
+                <s:Button id="startButton" label="Start" click="publish()" 
                           enabled="{_connected}" alpha="0.75"/>
                 <s:Button label="Stop" click="stop()" enabled="{_publishing}" alpha="0.75"/>
             </s:HGroup>
-            <s:Label text="Waiting for other peers..." visible="{!_connected}" top="50" left="50%" />
+            <s:Label text="Waiting for other peers..." visible="{!_connected}" paddingTop="30" />
         </s:VGroup>
     </s:BorderContainer>
 </s:Application>
