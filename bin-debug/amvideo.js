@@ -23,7 +23,12 @@ var AMVideo = {
 			container : "peer2ContainerId",
 			autopublish: false,
 			width : 320,
-			height : 240
+			height : 240, 
+			quality : 50,
+			bw : 0,
+			fps : 10,
+			wcapture : 320,
+			hcapture : 240
 	},
 	/*!
 	 * Default parameters for output SWF objects.
@@ -61,7 +66,12 @@ var AMVideo = {
 		var attributes = {};
 		params.allowscriptaccess = "always"; 
 		var url = this.url_root + "input.swf?group=" + this.net_group_name + "&stream=" + 
-			this.input.stream + "&autopublish=" + this.input.autopublish;
+			this.input.stream + "&autopublish=" + this.input.autopublish + 
+			"&bw=" + this.input.bw + 
+			"&quality=" + this.input.quality + 
+			"&fps=" + this.input.fps + 
+			"&wCapture=" + this.input.wcapture +
+			"&hCapture=" + this.input.hcapture;
 		swfobject.embedSWF(url, this.input.container, this.input.width, 
 				this.input.height, this.version, 
 				this.url_root + "expressInstall.swf", flashvars, params, 

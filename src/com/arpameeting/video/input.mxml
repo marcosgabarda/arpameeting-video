@@ -27,8 +27,12 @@
             
             [Bindable] private var _cameras:ArrayList = new ArrayList(Camera.names);
             private var _camera:Camera = null;
+            
             private var _quality:Number = 50;
             private var _bw:Number = 0;
+            private var _fps:Number = 10;
+            private var _wCapture:Number = 320;
+            private var _hCapture:Number = 240;
             
             [Bindable] private var _microphones:ArrayList = new ArrayList(Microphone.names);
             private var _microphone:Microphone = null;
@@ -38,7 +42,7 @@
             private function setupCamera():void
             {
                 _camera = Camera.getCamera(camerasBox.selectedIndex.toString());
-                _camera.setMode(320, 240, 10, false);
+                _camera.setMode(_wCapture, _hCapture, _fps, false);
                 _camera.setQuality(_bw, _quality);
                 _camera.setLoopback(true);
             }
@@ -162,7 +166,31 @@
                 {
                     return;
                 }
-
+                
+                /**
+                 * Quality vars.
+                 */
+                if (FlexGlobals.topLevelApplication.parameters.quality != null)
+                {
+                    _quality = FlexGlobals.topLevelApplication.parameters.quality;
+                }
+                if (FlexGlobals.topLevelApplication.parameters.bw != null)
+                {
+                    _bw = FlexGlobals.topLevelApplication.parameters.bw;
+                }
+                if (FlexGlobals.topLevelApplication.parameters.fps != null)
+                {
+                    _fps = FlexGlobals.topLevelApplication.parameters.fps;
+                }
+                if (FlexGlobals.topLevelApplication.parameters.wCapture != null)
+                {
+                    _wCapture = FlexGlobals.topLevelApplication.parameters.wCapture;
+                }
+                if (FlexGlobals.topLevelApplication.parameters.hCapture != null)
+                {
+                    _hCapture = FlexGlobals.topLevelApplication.parameters.hCapture;
+                }
+                
                 /**
                  * Get varaibles from flashVars.
                  */
