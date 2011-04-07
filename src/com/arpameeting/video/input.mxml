@@ -27,7 +27,8 @@
             
             [Bindable] private var _cameras:ArrayList = new ArrayList(Camera.names);
             private var _camera:Camera = null;
-            private var _quality:Number = 85;
+            private var _quality:Number = 50;
+            private var _bw:Number = 0;
             
             [Bindable] private var _microphones:ArrayList = new ArrayList(Microphone.names);
             private var _microphone:Microphone = null;
@@ -37,8 +38,8 @@
             private function setupCamera():void
             {
                 _camera = Camera.getCamera(camerasBox.selectedIndex.toString());
-                _camera.setMode(640, 480, 15, false);
-                _camera.setQuality(0, _quality);
+                _camera.setMode(320, 240, 10, false);
+                _camera.setQuality(_bw, _quality);
                 _camera.setLoopback(true);
             }
             
